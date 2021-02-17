@@ -1,4 +1,4 @@
-package com.atWSN.queue;
+package com.atWSN.sparsearray;
 
 import java.util.Scanner;
 

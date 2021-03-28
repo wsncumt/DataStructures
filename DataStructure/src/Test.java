@@ -10,19 +10,41 @@ import java.io.*;
 
 public class Test {
 
-
+//["MinStack","push","push","push","top","pop","getMin","pop","getMin","pop","push","top","getMin","push","top","getMin","pop","getMin"]
+//        [[],[2147483646],[2147483646],[2147483647],[],[],[],[],[],[],[2147483647],[],[],[-2147483648],[],[],[],[]]
     public static void main(String[] args) {
-        File f = new File("e:/desktop/a.txt");
-        File f1 = new File("e:/desktop/b.txt");
-        try {
-            f.createNewFile();
-
-        } catch (Exception e) {
-            System.out.println(e.getMessage());
-        }
-        f.renameTo(f1);
-        f.setReadOnly();
-        System.out.println(f.getAbsolutePath());
+        MinStack minStack = new MinStack();
+        minStack.push(2147483646);
+        minStack.push(2147483646);
+        minStack.push(2147483647);
+        minStack.top();
+        minStack.pop();
+        minStack.getMin();
+        minStack.pop();
+        minStack.getMin();
+        minStack.pop();
+        minStack.push(2147483647);
+        minStack.top();
+        minStack.getMin();
+        minStack.push(-2147483648);
+        minStack.top();
+        minStack.getMin();
+        minStack.pop();
+        minStack.getMin();
+//        File f = new File("e:/desktop/a.txt");
+//        File f1 = new File("e:/desktop/b.txt");
+//        int i =1;
+//        i ^= 1;
+//
+//        try {
+//            f.createNewFile();
+//
+//        } catch (Exception e) {
+//            System.out.println(e.getMessage());
+//        }
+//        f.renameTo(f1);
+//        f.setReadOnly();
+//        System.out.println(f.getAbsolutePath());
 
 //        A a = new A();
 //        Object o;
@@ -400,4 +422,79 @@ class B implements Cloneable, Serializable {
             if (f.isDirectory()) listJavaFiles(f);
         }
     }
+
+    static class TreeNode{
+        public int val;
+        public TreeNode left;
+        public TreeNode right;
+    }
+    public List<List<Integer>> rightSideView(TreeNode root) {
+        List<List<Integer>> ans = new ArrayList<>();
+        if(root == null){
+            return ans;
+        }
+        TreeNode node = new TreeNode();
+        Queue<TreeNode> queue = new LinkedList<>();
+        queue.offer(root);
+        while(!queue.isEmpty()){
+            int size = queue.size();
+            List<Integer> tmp = new ArrayList<>();
+            for (int i = 0; i < size; i++){
+                node = queue.poll();
+                tmp.add(node.val);
+                if(node.left != null){
+                    queue.offer(node.left);
+                }
+                if(node.right != null){
+                    queue.offer(node.right);
+                }
+            }
+            ans.add(tmp);
+        }
+        return ans;
+    }
+}
+
+class MinStack {
+    Stack<Integer> A = null;
+    Stack<Integer> B = null;
+    /** initialize your data structure here. */
+    public MinStack() {
+        A = new Stack();
+        B = new Stack();
+    }
+
+    public void push(int x) {
+        if(B.isEmpty()){
+            B.push(x);
+        }else{
+            int min = B.peek();
+            if(x < min){
+                B.push(x);
+            }else{
+                B.push(min);
+            }
+        }
+        A.push(x);
+        //B.push(x < B.peek() ? x : B.peek()) ;
+
+    }
+
+    public void pop() {
+        if(A.isEmpty()){
+            return ;
+        }
+        A.pop();
+        B.pop();
+    }
+
+    public int top() {
+        return A.peek();
+    }
+
+    public int getMin() {
+        return B.peek();
+    }
+
+
 }
